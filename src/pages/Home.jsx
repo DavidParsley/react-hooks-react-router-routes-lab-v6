@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
-import MovieCard from "../components/MovieCard";
+import MovieCard from "../components/MovieCard"; // Ensure this component is correctly imported
 
 function Home() {
   const [movies, setMovies] = useState([]);
 
+  // Fetching movies when the component mounts
   useEffect(() => {
     fetch("http://localhost:4000/movies")
-      .then((r) => r.json())
+      .then((response) => response.json())
       .then((data) => setMovies(data))
-      .catch((error) => console.error(error));
+      .catch((error) => console.error("Error fetching movies:", error));
   }, []);
+
+  // Display a loading state or an empty state if no movies are loaded yet
+  if (movies.length === 0) {
+    return <h1>Loading movies...</h1>;
+  }
 
   return (
     <>
